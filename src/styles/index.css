@@ -1,0 +1,172 @@
+@import url("https://fonts.googleapis.com/css?family=Gochi+Hand");
+
+/* reset.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+li {
+  list-style-type: none;
+}
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* layout */
+body {
+  background-color: #a39bd2;
+  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: hsl(198, 1%, 29%);
+  text-align: center;
+  font-size: 130%;
+  font-family: "Gochi Hand", cursive;
+}
+#root {
+  min-width: 500px;
+  padding: 0 1rem;
+}
+.wrapper {
+  width: 100%;
+  height: auto;
+  background: #f1f5f8;
+  background-image: radial-gradient(#bfc0c1 7.2%, transparent: 0);
+  background-size: 25px 25px;
+  border-radius: 20px;
+  box-shadow: 4px 3px 7px 2px #00000040;
+  padding: 1rem;
+}
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 2rem 0 1rem 0;
+}
+.contents {
+  height: 430px;
+}
+
+/* header */
+.header .header__title {
+  transform: rotate(2deg);
+  padding: 0.2rem 1.2rem;
+  border-radius: 20% 5% 20% 5%/5% 20% 25% 20%;
+  background-color: hsla(166, 100%, 50%, 0.7);
+  font-size: 2rem;
+  margin-left: 1rem;
+}
+.header .header__img {
+  width: 20%;
+}
+
+/* todoInput */
+.todoInput {
+  width: 100%;
+  height: 30%;
+}
+.todoInput .form {
+  width: 100%;
+}
+.todoInput .form .form__label {
+  display: block;
+  margin-bottom: 1rem;
+}
+.todoInput .form .form__input {
+  background: transparent;
+  padding: 0.7rem;
+  border-bottom-right-radius: 15px 3px;
+  border-bottom-left-radius: 3px 15px;
+  border: solid 3px transparent;
+  border-bottom: dashed 3px #ea95e0;
+  font-family: "Gochi Hand", cursive;
+  font-size: 1rem;
+  color: hsla(260, 2%, 25%, 0.7);
+  width: 70%;
+  margin-bottom: 20px;
+}
+.todoInput .form .form__input:focus {
+  outline: none;
+  border: solid 3px #ea95e0;
+}
+.todoInput .form .form__submitBtn {
+  padding: 0;
+  border: none;
+  transform: rotate(4deg);
+  transform-origin: center;
+  font-family: "Gochi Hand", cursive;
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-radius: 5px;
+  box-shadow: 0 2px 0 hsl(198, 1%, 29%);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background-color: hsla(166, 100%, 50%, 0.7);
+  width: 10%;
+  height: 30px;
+  margin-left: 1rem;
+  line-height: 12%;
+  position: relative;
+  bottom: 3px;
+}
+.todoInput .form .form__submitBtn div {
+  position: relative;
+  top: 5px;
+}
+.todoInput .form .form__submitBtn:active,
+.todoInput .form .form__submitBtn:focus {
+  transform: translateY(4px);
+  padding-bottom: 0px;
+  outline: 0;
+}
+
+/* todoLists */
+.todoLists {
+  text-align: left;
+  padding: 1rem 0 0 2rem;
+}
+.todoLists li {
+  padding: 0.5rem;
+  position: relative;
+}
+
+/* checkBox */
+.check-input-comp {
+  float: left;
+  width: 20px;
+  padding-right: 2rem;
+}
+.completed::after {
+  content: "";
+  display: inline-block;
+  width: 171px;
+  height: 3px;
+  background: darkgray;
+  position: absolute;
+  left: 40px;
+  top: 18px;
+}
+
+.todoLists li button.correct-btn {
+  border: none;
+  outline: none;
+  padding: 6px;
+  background: darkseagreen;
+  border-radius: 9px;
+  position: absolute;
+  right: 76px;
+}
+.todoLists li button.delete-btn {
+  border: none;
+  outline: none;
+  position: absolute;
+  right: 33px;
+  padding: 6px;
+  border-radius: 9px;
+  background: indianred;
+}
