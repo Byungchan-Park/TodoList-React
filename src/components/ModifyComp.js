@@ -18,10 +18,10 @@ const ModifyComp = ({
         ref={modifyInputRef}
       />
       <button className="modify-ok" onClick={modifyTodo}>
-        O
+        완료
       </button>
       <button className="modify-no" onClick={cancelModify}>
-        X
+        취소
       </button>
     </section>
   );

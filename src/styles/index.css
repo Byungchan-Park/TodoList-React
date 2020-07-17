@@ -170,3 +170,42 @@ body {
   border-radius: 9px;
   background: indianred;
 }
+
+/* Modify Component */
+section.modify-layer {
+  position: relative;
+}
+section.modify-layer .modify-input {
+  outline: 0;
+  border: 0;
+  width: 170px;
+  height: 30px;
+  background: transparent;
+  padding: 0.7rem;
+  border-bottom-right-radius: 15px 3px;
+  border-bottom-left-radius: 3px 15px;
+  border: solid 3px transparent;
+  border-bottom: dashed 3px #ea95e0;
+  font-family: "Gochi Hand", cursive;
+  font-size: 1rem;
+  color: hsla(260, 2%, 25%, 0.7);
+  width: 70%;
+}
+section.modify-layer .modify-input ~ button {
+  font-size: 12px;
+}
+section.modify-layer .modify-ok {
+  border: none;
+  background: #79d70f;
+  width: 40px;
+  height: 30px;
+  border-radius: 10px;
+  margin: 0 10px;
+}
+section.modify-layer .modify-no {
+  border: none;
+  background: #d32626;
+  width: 40px;
+  height: 30px;
+  border-radius: 10px;
+}
