@@ -1,5 +1,8 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import "./styles/index.css";
+
+import { db } from "./firebase";
+// import firebase from "firebase";
 
 import TodoLayout from "./todoLayout";
 import TodoInput from "./todoInput";
@@ -7,91 +10,97 @@ import TodoLists from "./todoLists";
 import ModifyComp from "./components/ModifyComp";
 
 const App = () => {
+  const [todos, setTodos] = useState([]);
+  const [iptVal, setIptVal] = useState("");
+  const [mode, setMode] = useState("read");
+  const [idToModify, setIdToModify] = useState("");
   const inputText = useRef();
   const modifyInput = useRef();
 
-  const [todos, setTodos] = useState([
-    { id: 1, text: "기술면접 공부하기", done: false },
-    { id: 2, text: "유튜브 인강듣기", done: false },
-  ]);
-  const [iptVal, setIptVal] = useState("");
-  const [mode, setMode] = useState("read");
-  const [indexToModify, setIndexToModify] = useState("");
-
-  const handleChange = (value) => {
-    setIptVal(value);
-  };
-
-  const nextId = useRef(3);
-
-  const addTodo = () => {
-    const newTodo = {
-      id: nextId.current,
-      text: iptVal,
-      done: false,
-    };
-    setTodos([...todos, newTodo]);
-
-    setIptVal("");
-    nextId.current += 1;
-    inputText.current.focus();
-  };
-
-  const modeToModify = (id) => {
-    setMode("modify");
-    const selectedTodo = todos.findIndex((todo) => todo.id === id);
-    setIndexToModify(selectedTodo);
-  };
-
-  const modifyTodo = () => {
-    const modified = {
-      ...todos[indexToModify],
-      text: iptVal,
-    };
-    setTodos([
-      ...todos.slice(0, indexToModify),
-      modified,
-      ...todos.slice(indexToModify + 1, todos.length),
-    ]);
-    setIndexToModify("");
-    setIptVal("");
-    modifyInput.current = null;
-    setMode("read");
-  };
-
-  const cancelModify = () => {
-    setIndexToModify("");
-    setIptVal("");
-    modifyInput.current = null;
-    setMode("read");
-  };
-
-  const onRemove = (id) => {
-    const removed = (todoItem) => todoItem.id !== id;
-    setTodos(todos.filter(removed));
-  };
-
-  const handleCheck = (id) => {
-    console.log(id);
-    const clicked = todos.findIndex((todo) => todo.id === id);
-    const clickedTodo = {
-      ...todos[clicked],
-      done: !todos[clicked].done,
-    };
-    setTodos([
-      ...todos.slice(0, clicked),
-      clickedTodo,
-      ...todos.slice(clicked + 1, todos.length),
-    ]);
-  };
+  // when the app loads, we need to listen to the database and fetch new todos as they get added/removed
+  useEffect(() => {
+    // this code here... fires when the app.js loads
+    db.collection("todos").onSnapshot((snapshot) => {
+      setTodos(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          text: doc.data().text,
+          done: doc.data().done,
+        }))
+      );
+      // 이 부분 주의!!! 모든 변경사항들이 실시간으로 데이터베이스에 전달된 후 화면에 반영되기 때문에 각각의 value 설정을 주의해야 한다.
+    });
+  }, []);
 
   useEffect(() => {
     mode === "modify" && alert("수정모드로 변경되었습니다.");
     if (modifyInput.current) {
-      modifyInput.current.value = todos[indexToModify].text;
+      modifyInput.current.value = todos.find(
+        (todo) => todo.id === idToModify
+      ).text;
       modifyInput.current.focus();
     }
-  }, [mode, indexToModify, todos]);
+  }, [mode, idToModify, todos]);
+
+  const handleChange = useCallback((value) => {
+    setIptVal(value);
+  }, []); // 컴포넌트가 처음 렌더링될 때만 함수 생성
+
+  const addTodo = useCallback(() => {
+    console.log("addTodo");
+    db.collection("todos").add({
+      text: iptVal,
+      done: false,
+      // timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
+    setIptVal(""); // clear up the input after clicking "추가" button
+    inputText.current.focus();
+  }, [iptVal]);
+
+  const modeToModify = useCallback((id) => {
+    console.log("modeToModify");
+    setMode("modify");
+    setIdToModify(id);
+  }, []);
+  const modifyTodo = useCallback(() => {
+    console.log("modifyTodo");
+    db.collection("todos").doc(idToModify).set(
+      {
+        text: iptVal,
+      },
+      { merge: true }
+    );
+
+    setIdToModify("");
+    setIptVal("");
+    modifyInput.current = null;
+    setMode("read");
+  }, [idToModify, iptVal]);
+
+  const cancelModify = useCallback(() => {
+    console.log("cancelModify");
+    setIdToModify("");
+    setIptVal("");
+    modifyInput.current = null;
+    setMode("read");
+  }, []);
+
+  const onRemove = useCallback((id) => {
+    console.log("onRemove");
+    db.collection("todos").doc(id).delete();
+  }, []);
+
+  const handleCheck = (id) => {
+    console.log("handleCheck");
+    let checkedIndex = todos.findIndex((todo) => todo.id === id);
+    db.collection("todos").doc(id).set(
+      {
+        done: !todos[checkedIndex].done,
+      },
+      { merge: true }
+    );
+  };
 
   return (
     <TodoLayout>

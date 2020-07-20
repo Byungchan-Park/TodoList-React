@@ -26,5 +26,4 @@ const ModifyComp = ({
     </section>
   );
 };
-
 export default ModifyComp;

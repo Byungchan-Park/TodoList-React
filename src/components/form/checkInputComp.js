@@ -6,7 +6,7 @@ const CheckInputComp = ({ onCheck, done }) => {
       <input
         className="check-input"
         type="checkbox"
-        checked={done}
+        defaultChecked={done}
         onClick={onCheck}
       />
     </div>

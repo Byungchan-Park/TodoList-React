@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const DeleteBtnComp = ({ onRemove }) => {
   return (
@@ -8,4 +8,4 @@ const DeleteBtnComp = ({ onRemove }) => {
   );
 };
 
-export default DeleteBtnComp;
+export default memo(DeleteBtnComp);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const correctBtnComp = ({ modeToModify }) => {
   return (
@@ -10,4 +10,4 @@ const correctBtnComp = ({ modeToModify }) => {
   );
 };
 
-export default correctBtnComp;
+export default memo(correctBtnComp);

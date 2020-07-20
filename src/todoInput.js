@@ -1,8 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 
-const TodoInput = ({ iptVal, handleChange, addTodo, inputRef, mode }) => {
+const TodoInput = ({ iptVal, handleChange, addTodo, inputRef }) => {
   const handleChangeInput = (e) => {
-    handleChange(e.target.value);
+    const { value } = e.target;
+    handleChange(value);
   };
 
   const onSubmitForm = (event) => {
@@ -28,6 +29,7 @@ const TodoInput = ({ iptVal, handleChange, addTodo, inputRef, mode }) => {
           onChange={handleChangeInput}
           ref={inputRef}
           required
+          autoComplete="off"
         />
         <button type="submit" className="form__submitBtn">
           <div>추가</div>
@@ -37,4 +39,4 @@ const TodoInput = ({ iptVal, handleChange, addTodo, inputRef, mode }) => {
   );
 };
 
-export default TodoInput;
+export default memo(TodoInput);
