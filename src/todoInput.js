@@ -1,18 +1,18 @@
-import React, { memo } from "react";
+import React, { memo } from "react"
 
 const TodoInput = ({ iptVal, handleChange, addTodo, inputRef }) => {
   const handleChangeInput = (e) => {
-    const { value } = e.target;
-    handleChange(value);
-  };
+    const { value } = e.target
+    handleChange(value)
+  }
 
   const onSubmitForm = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     if (!iptVal) {
-      return alert("할일을 입력하세요!!!");
+      return alert("할일을 입력하세요!!!")
     }
-    addTodo();
-  };
+    addTodo(iptVal)
+  }
 
   return (
     <section className="todoInput">
@@ -20,23 +20,13 @@ const TodoInput = ({ iptVal, handleChange, addTodo, inputRef }) => {
         <label className="form__label" htmlFor="todo">
           ~ Today I need to ~
         </label>
-        <input
-          type="text"
-          id="todo"
-          name="createInput"
-          className="form__input"
-          value={iptVal}
-          onChange={handleChangeInput}
-          ref={inputRef}
-          required
-          autoComplete="off"
-        />
+        <input type="text" id="todo" name="createInput" className="form__input" value={iptVal} onChange={handleChangeInput} ref={inputRef} required autoComplete="off" />
         <button type="submit" className="form__submitBtn">
           <div>추가</div>
         </button>
       </form>
     </section>
-  );
-};
+  )
+}
 
-export default memo(TodoInput);
+export default memo(TodoInput)
